@@ -1,0 +1,177 @@
+---
+title: "Using the BOAT design"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using the BOAT design}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+BOAT is a Bayesian design for randomized umbrella trials in which the tumor of every enrolled
+patient gives patient-derived organoids (PDOs). The PDOs are tested with every treatment open in
+the patient's subgroup, so each patient contributes a clinical response to one treatment and PDO
+responses to all open treatments. The design
+
+* models patient responses and PDO responses jointly, with a patient random effect shared by
+  both,
+* clusters the response mean of each treatment across subgroups by reversible jump MCMC, so that
+  subgroups with similar effects borrow information,
+* drops treatments that are not promising at interim analyses and recommends admissible
+  treatments at the end, and
+* randomizes each new patient adaptively, favoring the treatment predicted best for this patient
+  from the patient's own PDO responses.
+
+This vignette follows a trial from design to conduct to evaluation by simulation. The MCMC runs
+below are shortened so that the vignette builds quickly. Use the defaults (10,000 iterations) in
+practice.
+
+```{r}
+library(BOAT)
+```
+
+## 1. Design
+
+The trial below has three subgroups, three experimental treatments and a control. Treatment
+$A_2$ is not evaluated in $B_1$ and $A_1$ is not evaluated in $B_3$. Each subgroup enrolls at most
+150 patients, with interim analyses after 50% and 75% of them.
+
+```{r}
+design <- boat_design(K = 3, J = 3, arms = list(c(0, 1, 3), 0:3, c(0, 2, 3)), N = 150,
+                      interim = c(0.5, 0.75), lambda = 0.70, delta_T = 0.05, delta_R = 0.05,
+                      mcmc = list(iter = 1000, burn = 500))
+design
+```
+
+A treatment $A_j$ is admissible in subgroup $B_k$ if it is safe,
+$\pi_{T,j} < \pi_{T,0} + \delta_T$, and effective, $\pi_{R,j,k} > \pi_{R,0,k} + \delta_R$. At an
+analysis with $n_k$ patients in $B_k$, a treatment is dropped if its posterior probability of
+being effective or of being safe is below $c_k = \lambda \sqrt{n_k / N_k}$. At the end the treatments
+still open are recommended if both probabilities reach $\lambda$.
+
+```{r}
+bounds <- boat_boundary(design)
+bounds
+```
+
+## 2. Conducting a trial
+
+The data of a trial are two data frames. `pat` has one row per patient with the patient `id`, the
+subgroup `k`, the assigned treatment `j` (0 = control), toxicity `YT` and response `YR`. `pdo` has one row per PDO
+replicate with the patient `id`, subgroup `k`, the treatment tested `j` and the PDO response
+`YO`. Here we simulate one trial from assumed true toxicity and response probabilities and keep
+its data. We then go through its analyses as they would be done during the trial.
+
+```{r}
+truth <- boat_scenario(pR = rbind(c(0.50, 0.30, NA, 0.70),
+                                  c(0.50, 0.70, 0.50, 0.30),
+                                  c(0.30,   NA, 0.50, 0.30)),
+                       piT = c(0.25, 0.35, 0.20, 0.15))
+truth
+trial <- boat_simulate_trial(design, truth, seed = 2031, keep_data = TRUE)
+pat <- trial$pat
+pdo <- trial$pdo
+head(pat)
+head(pdo)
+```
+
+The patients are in the order of enrollment. The function below gives the data available once
+each subgroup $B_k$ has enrolled `n[k]` patients or has been stopped. It also gives the number of
+patients of each subgroup.
+
+```{r}
+data_at <- function(n) {
+  keep <- ave(pat$id, pat$k, FUN = seq_along) <= n[pat$k]
+  list(pat = pat[keep, ], pdo = pdo[pdo$id %in% pat$id[keep], ], n = tabulate(pat$k[keep], design$K))
+}
+```
+
+**Before the first interim analysis.** Each patient is randomized equally among the treatments of
+the patient's subgroup.
+
+```{r}
+boat_randomize(design, k = 1)$prob
+```
+
+**Interim analysis 1.** Fit the model to the data of the first 75 patients of each subgroup and
+apply the decision rule. `boat_simulate_trial()` runs the MCMC of analysis $l$ with the trial seed
+plus $1000 l$, so the seeds below reproduce the decisions of the simulated trial.
+
+```{r}
+d1 <- data_at(bounds$n[bounds$analysis == "Interim 1"])
+fit1 <- boat_fit(design, d1$pat, d1$pdo, seed = 2031 + 1000)
+fit1
+dec1 <- boat_decide(design, fit1, n = d1$n)
+dec1
+```
+
+**Randomization until the next analysis.** Fit the probit models that predict each patient's
+response from the patient's PDO responses. Each new patient is then randomized from the patient's
+mean PDO response to each open treatment. Below we randomize the next patient of the trial.
+
+```{r}
+rar1 <- boat_rar_model(design, d1$pat, d1$pdo, active = dec1$active)
+i <- max(d1$pat$id) + 1
+pat[pat$id == i, ]
+pdo_mean <- with(pdo[pdo$id == i, ], tapply(YO, j, mean))
+pdo_mean
+boat_randomize(design, k = pat$k[pat$id == i], pdo_mean = pdo_mean, rar = rar1)$prob
+```
+
+Without a seed, `boat_rar_model()` continues the random number stream of `boat_fit()` as the
+simulation does. Hence, these are the probabilities with which the simulated trial randomized this
+patient.
+
+**Interim analysis 2.** Only the treatments still open after interim analysis 1 are evaluated.
+
+```{r}
+d2 <- data_at(bounds$n[bounds$analysis == "Interim 2"])
+fit2 <- boat_fit(design, d2$pat, d2$pdo, seed = 2031 + 2000)
+dec2 <- boat_decide(design, fit2, n = d2$n, active = dec1$active)
+dec2
+rar2 <- boat_rar_model(design, d2$pat, d2$pdo, active = dec2$active)
+```
+
+**Final analysis.** A subgroup stopped at an interim analysis is not reopened, and only the
+treatments still open are evaluated. `final = TRUE` gives the recommendations.
+
+```{r}
+d3 <- data_at(design$N)
+fit3 <- boat_fit(design, d3$pat, d3$pdo, seed = 2031 + 3000)
+boat_decide(design, fit3, n = d3$n, active = dec2$active, final = TRUE)
+```
+
+These decisions agree with those of the simulated trial.
+
+```{r}
+trial
+```
+
+## 3. Simulation
+
+`boat_get_oc()` simulates many trials with `boat_simulate_trial()` and summarizes them by
+subgroup and treatment. The run below uses 2 trials with short MCMC runs. In practice, use about
+1000 trials.
+
+```{r}
+fast <- boat_design(arms = list(c(0, 1, 3), 0:3, c(0, 2, 3)), N = 150, lambda = 0.70,
+                    mcmc = list(iter = 300, burn = 150), rar_mcmc = list(iter = 200, burn = 100))
+oc <- boat_get_oc(fast, truth, nsim = 2)
+oc
+```
+
+`boat_dgm()` changes the data-generating values, for example the association $\rho$ between the
+patient random effect and the PDO responses or the number of PDO replicates $M$.
+
+The tuning parameter $\lambda$ is calibrated so that the largest family-wise error rate over the
+subgroups without an admissible treatment is closest to 10%. Under `truth`, subgroup $B_2$ has no
+admissible treatment.
+
+```{r, eval = FALSE}
+cal <- boat_calibrate(design, list(truth), lambda = seq(0.64, 0.76, by = 0.02),
+                      nsim = 1000, cores = 8)
+cal
+```
