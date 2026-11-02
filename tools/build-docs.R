@@ -67,6 +67,13 @@ build_docs <- function() {
   run_r_command(c("CMD", "INSTALL", "--no-multiarch", "--no-test-load",
                   paste0("--library=", shQuote(lib)), shQuote(snapshot)), "install.log")
   stopifnot(normalizePath(find.package("BOAT")) == normalizePath(file.path(lib, "BOAT")))
+  # Use R-generated author fields for the manual cover without changing source metadata.
+  installed_description <- read.dcf(file.path(lib, "BOAT", "DESCRIPTION"))
+  manual_description <- read.dcf(file.path(snapshot, "DESCRIPTION"))
+  for (field in c("Author", "Maintainer")) {
+    manual_description <- cbind(manual_description, installed_description[, field, drop = FALSE])
+  }
+  write.dcf(manual_description, file.path(snapshot, "DESCRIPTION"))
   run_r_command(c("CMD", "Rd2pdf", "--no-preview", "--force",
                   paste0("--output=", shQuote(file.path(output, "BOAT-manual.pdf"))),
                   shQuote(snapshot)), "manual.log")
