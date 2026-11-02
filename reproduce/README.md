@@ -1,5 +1,7 @@
 # Supplementary code for "A Bayesian Precision Umbrella Trial Design Incorporating Patient-Derived Organoid Response Data"
 
+**Authors:** Yong Zang and Saijun Zhao.
+
 This archive contains the R package **BOAT**, which implements the proposed design, the code of
 the illustrative trial (Section 5) and the code of the simulation study (Section 4). BOAT and its
 version with equal randomization (BOAT-ER) are run with the functions of the package. The
