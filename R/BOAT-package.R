@@ -22,6 +22,7 @@
 #'     characteristics and [boat_calibrate()] calibrates the tuning parameter \eqn{\lambda}.}
 #' }
 #'
+#' @author Yong Zang and Saijun Zhao
 #' @keywords internal
 #' @importFrom msm rtnorm
 #' @importFrom stats aggregate dbeta dnorm integrate pbeta pnorm qnorm rbinom rgamma rnorm runif sd setNames
