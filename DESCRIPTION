@@ -1,0 +1,25 @@
+Package: BOAT
+Type: Package
+Title: Bayesian Umbrella Trial Design Using Patient-Derived Organoid Data
+Version: 0.1.0
+Authors@R: person("Saijun", "Zhao", email = "zsj14000639@gmail.com", role = c("aut", "cre"))
+Description: Implements the BOAT design for randomized umbrella trials in which each patient's
+    tumor gives patient-derived organoids (PDOs) that are tested with every treatment available
+    in the patient's subgroup. Patient responses and PDO responses are modelled jointly, the
+    response mean of each treatment is adaptively clustered across subgroups by reversible jump
+    MCMC, and patients are adaptively randomized according to how well their own PDO responses
+    predict clinical response. The package provides the decision boundaries, the model fit and the
+    interim, final and randomization decisions needed to conduct a trial, simulation of operating
+    characteristics, and calibration of the tuning parameter.
+License: GPL (>= 3)
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports:
+    msm,
+    parallel,
+    stats
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0

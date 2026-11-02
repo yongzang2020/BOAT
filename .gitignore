@@ -1,0 +1,25 @@
+# Local R sessions and editor files
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+.DS_Store
+.texpadtmp/
+
+# Generated simulation results and local checks
+reproduce/**/results/
+*.Rcheck/
+.Rcheck/
+.Rlib/
+.Rlibrary/
+.Renviron
+
+# Documentation intermediates
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.tex
+*.knit.md
+*.utf8.md
