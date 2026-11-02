@@ -30,12 +30,6 @@ The functions follow the steps of a trial.
 }
 }
 \author{
-\strong{Maintainer}: Saijun Zhao \email{zsj14000639@gmail.com}
-
-Authors:
-\itemize{
-  \item Saijun Zhao \email{zsj14000639@gmail.com}
-}
-
+Yong Zang and Saijun Zhao
 }
 \keyword{internal}
