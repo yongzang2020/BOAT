@@ -1,5 +1,6 @@
 ---
 title: "Using the BOAT design"
+author: "Yong Zang and Saijun Zhao"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Using the BOAT design}
