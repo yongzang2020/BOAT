@@ -1,5 +1,7 @@
 # BOAT
 
+**Authors:** Yong Zang and Saijun Zhao.
+
 **Bayesian Organoid-Assisted Treatment evaluation**
 
 BOAT is an R package for randomized umbrella trials that use patient-derived organoid (PDO)
@@ -14,7 +16,7 @@ and illustrative trial. The illustrative data are simulated; no empirical patien
 - [BOAT reference manual](docs/BOAT-manual.pdf): function descriptions, arguments, return values and examples.
 - [BOAT user guide](docs/BOAT-guide.pdf): a worked example of trial design, conduct and simulation.
 
-Click either link to preview the PDF on GitHub. The original R Markdown vignette is in
+Open either link to view or download the PDF on GitHub. The original R Markdown vignette is in
 [vignettes/BOAT.Rmd](vignettes/BOAT.Rmd).
 
 ## Installation
@@ -28,9 +30,9 @@ install.packages("reproduce/BOAT_0.1.0.tar.gz", repos = NULL, type = "source")
 library(BOAT)
 ```
 
-The bundled source archive is the version supplied with the manuscript. To install the source
-at the repository root instead, run `R CMD INSTALL .` in a terminal from this folder after
-installing `msm`.
+The bundled source archive contains the implementation supplied with the manuscript, with updated
+author metadata. To install the source at the repository root instead, run `R CMD INSTALL .`
+in a terminal from this folder after installing `msm`.
 
 While this repository is private, viewing or downloading its files requires an authorized GitHub account.
 
@@ -48,8 +50,8 @@ design <- boat_design(
 boat_boundary(design)
 ```
 
-See `help(package = "BOAT")` for the function index and `vignette("BOAT")` for the worked example.
-The PDF links above can be read without installing R.
+See `help(package = "BOAT")` for the function index. After installing the bundled archive,
+use `vignette("BOAT")` for the worked example. The PDF links above can be read without installing R.
 
 To rebuild both PDFs, run `Rscript tools/build-docs.R` from the repository root.
 This requires `knitr`, `rmarkdown`, Pandoc and a LaTeX installation.
@@ -68,7 +70,7 @@ This requires `knitr`, `rmarkdown`, Pandoc and a LaTeX installation.
 ## Reproduce the simulation study and illustrative trial
 
 The [reproduction guide](reproduce/README.md) maps each script to the manuscript and supplementary
-tables. It includes the original package archive, all five designs, calibration,
+tables. It includes the package source archive, all five designs, calibration,
 the main simulation and five sensitivity analyses.
 
 | Analysis | Entry point |
@@ -101,7 +103,7 @@ R/                       package implementation
 man/                     R help files
 vignettes/               worked example source
 docs/                    PDF reference manual and user guide
-reproduce/               manuscript reproduction code and original package archive
+reproduce/               manuscript reproduction code and package source archive
 ```
 
 ## License
