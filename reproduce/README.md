@@ -40,12 +40,20 @@ simulation/
 
 ## Requirements and installation
 
-R (version 4.1 or later) with the package `msm`. We used R 4.5.3. In R:
+Requires **R 4.1 or later**. Install BOAT directly from GitHub in R or RStudio:
 
 ```r
-install.packages("msm")
-install.packages("BOAT_0.1.0.tar.gz", repos = NULL, type = "source")
+install.packages("remotes")  # Only needed if remotes is not installed
+remotes::install_github("yongzang2020/BOAT")
+library(BOAT)
 ```
+
+Missing required dependencies, including **msm**, are installed automatically.
+The reproduction code was prepared with R 4.5.3.
+
+The reproduction scripts are separate from the installed R package. Download or clone the
+[BOAT repository](https://github.com/yongzang2020/BOAT) to obtain them; folder paths below are
+relative to its `reproduce/` directory.
 
 The simulation scripts run replications in parallel by forking (Linux and macOS). On Windows they
 run on one core.
@@ -65,8 +73,9 @@ run on one core.
 | | `boat_get_oc()` | operating characteristics |
 | | `boat_calibrate()` | calibrate lambda |
 
-Every function has a help page with examples (for example `?boat_fit`). The vignette
-(`vignette("BOAT")`) goes through the design, the conduct and the simulation of a trial.
+Every function has a help page with examples (for example `?boat_fit`). The
+[BOAT user guide](../docs/BOAT-guide.pdf) goes through the design, conduct and simulation
+of a trial and can be read on GitHub without installing R.
 
 ## 2. Illustrative trial (Section 5)
 
