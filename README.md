@@ -34,8 +34,6 @@ The bundled source archive contains the implementation supplied with the manuscr
 author metadata. To install the source at the repository root instead, run `R CMD INSTALL .`
 in a terminal from this folder after installing `msm`.
 
-While this repository is private, viewing or downloading its files requires an authorized GitHub account.
-
 ## Quick start
 
 ```r
