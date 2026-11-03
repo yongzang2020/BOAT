@@ -30,7 +30,6 @@ library(BOAT)
 ```
 
 Missing required dependencies, including **msm**, are installed automatically.
-The reproduction code was prepared with R 4.5.3.
 
 ## Quick start
 
