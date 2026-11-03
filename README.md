@@ -21,18 +21,16 @@ Open either link to view or download the PDF on GitHub. The original R Markdown 
 
 ## Installation
 
-Requires **R 4.1 or later** and the **msm** package. The reproduction code was prepared with R 4.5.3.
-Download or clone this repository, open R in the repository root, and run:
+Requires **R 4.1 or later**. Install BOAT directly from GitHub in R or RStudio:
 
 ```r
-install.packages("msm")
-install.packages("reproduce/BOAT_0.1.0.tar.gz", repos = NULL, type = "source")
+install.packages("remotes")  # Only needed if remotes is not installed
+remotes::install_github("yongzang2020/BOAT")
 library(BOAT)
 ```
 
-The bundled source archive contains the implementation supplied with the manuscript, with updated
-author metadata. To install the source at the repository root instead, run `R CMD INSTALL .`
-in a terminal from this folder after installing `msm`.
+Missing required dependencies, including **msm**, are installed automatically.
+The reproduction code was prepared with R 4.5.3.
 
 ## Quick start
 
@@ -48,8 +46,8 @@ design <- boat_design(
 boat_boundary(design)
 ```
 
-See `help(package = "BOAT")` for the function index. After installing the bundled archive,
-use `vignette("BOAT")` for the worked example. The PDF links above can be read without installing R.
+See `help(package = "BOAT")` for the function index and the [BOAT user guide](docs/BOAT-guide.pdf)
+for a worked example. The PDF documentation can be read on GitHub without installing R.
 
 To rebuild both PDFs, run `Rscript tools/build-docs.R` from the repository root.
 This requires `knitr`, `rmarkdown`, Pandoc and a LaTeX installation.
@@ -66,6 +64,9 @@ This requires `knitr`, `rmarkdown`, Pandoc and a LaTeX installation.
 | Calibrate the tuning parameter | `boat_calibrate()` |
 
 ## Reproduce the simulation study and illustrative trial
+
+To run the reproduction scripts, download or clone this repository and use the files in
+`reproduce/`. These scripts are separate from the installed R package.
 
 The [reproduction guide](reproduce/README.md) maps each script to the manuscript and supplementary
 tables. It includes the package source archive, all five designs, calibration,
