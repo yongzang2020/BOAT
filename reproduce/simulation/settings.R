@@ -41,7 +41,7 @@ SCENARIOS <- list(
                   0.30,   NA, 0.50, 0.40), c(0.25, 0.15, 0.20, 0.22))
 )
 
-# delta_R = 0.20 (Supplementary Tables S.14-S.17): the response probabilities of the experimental
+# delta_R = 0.20 (Supplementary Table S.5): the response probabilities of the experimental
 # treatments are raised so that the same treatments stay admissible; toxicity is unchanged
 SCENARIOS_DELTAR020 <- list(
   make_scenario(c(0.50, 0.45,   NA, 0.85,

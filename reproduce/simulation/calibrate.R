@@ -31,7 +31,7 @@ CALIBRATIONS <- list(
   "CD-AB"                = calibration("CD-AB",   seq(0.70, 0.90, by = 0.02)),
   "BOAT-ER"              = calibration("BOAT-ER", seq(0.60, 0.76, by = 0.02)),
   "BOAT"                 = calibration("BOAT",    seq(0.62, 0.78, by = 0.02)),
-  # sensitivity analyses with a recalibrated lambda (Supplementary Tables S.10-S.18)
+  # sensitivity analyses with a recalibrated lambda (Supplementary Tables S.4-S.6)
   "BOAT_sigmaOR0.05"     = calibration("BOAT", seq(0.62, 0.72, by = 0.01), dgm = boat_dgm(sigma_OR = 0.05)),
   "BOAT_sigmaOR0.20"     = calibration("BOAT", seq(0.71, 0.81, by = 0.01), dgm = boat_dgm(sigma_OR = 0.20)),
   "BOAT_deltaR0.20"      = calibration("BOAT", seq(0.66, 0.76, by = 0.01), truths = "deltaR020", delta_R = 0.20),
