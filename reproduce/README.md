@@ -9,7 +9,7 @@ comparators CD-SEP, CD-BHM and CD-AB have their own code.
 
 | Result | Code |
 |---|---|
-| Illustrative trial (Section 5, Figure 4 and Supplementary Figure S.11) | `illustration/illustration.R` |
+| Illustrative trial (Section 5, Figure 6 and Supplementary Figure S.9) | `illustration/illustration.R` |
 | Calibration of lambda (procedure in Section 3, values in Sections 4.1 and 5) | `simulation/calibrate.R` |
 | Main simulation (Supplementary Table S.1) | `simulation/main.R` |
 | Sensitivity to the number of PDO replicates M (Supplementary Tables S.2-S.5) | `simulation/sens1_M.R` |
@@ -90,7 +90,7 @@ EGFR, KRAS/BRAF and VEGF/VEGFR-2, the control docetaxel and the experimental tre
 sorafenib and vandetanib. **Its data are simulated.** No patient data of BATTLE-1 are used, and
 BATTLE-1 did not collect PDO data. `illustration.R` has three parts.
 
-1. **Simulated data.** The script states the true toxicity and response probabilities (Figure 3)
+1. **Simulated data.** The script states the true toxicity and response probabilities (Figure 5)
    and the data-generating model with sigma_E = 1, rho = 0.6, sigma_O = 0.1, sigma_OR = 0.1 and
    M = 20 PDO replicates per treatment, and simulates one trial under BOAT (lambda = 0.72,
    seed 1002). The data are two data frames in the form that `boat_fit()` takes. `pat` has one
@@ -104,12 +104,12 @@ BATTLE-1 did not collect PDO data. `illustration.R` has three parts.
    (`boat_randomize()`). The final analysis gives the recommended treatments.
 3. **BOAT-ER.** The same trial is simulated under BOAT-ER (lambda = 0.68) for comparison.
 
-Part 2 follows Steps C1-C5 of the flowchart in Supplementary Figure S.9. Step D3, the
+Part 2 follows Steps C1-C5 of the flowchart in Supplementary Figure S.7. Step D3, the
 calibration of lambda, is done by the calibrations `illustration_BOAT` and
 `illustration_BOAT-ER` of `simulation/calibrate.R`.
 
-Parts 2 and 3 produce the decisions in Figure 4 and the numbers of patients in
-Supplementary Figure S.11.
+Parts 2 and 3 produce the decisions in Figure 6 and the numbers of patients in
+Supplementary Figure S.9.
 
 ## 3. Simulation study (Section 4)
 
@@ -153,7 +153,7 @@ lambda is the grid value whose largest FWER_k over these subgroups is closest to
 to the smallest value with FWER_k at most 0.10. BOAT and BOAT-ER are calibrated with
 `boat_calibrate()` of the package and the comparators with `comparator_calibrate()` in
 `functions.R`, which applies the same rule. The lambda of the illustrative trial is calibrated in
-the same way under the null setting of Supplementary Figure S.10, in which no treatment is
+the same way under the null setting of Supplementary Figure S.8, in which no treatment is
 admissible in any subgroup, with nominal FWER 0.05. The sensitivity analyses on M and sigma_O use
 the lambda of the main simulation.
 
