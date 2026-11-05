@@ -7,10 +7,10 @@
 #
 # The data are simulated. No patient data of BATTLE-1 are used, and BATTLE-1 did not collect PDO
 # data. Part 1 simulates the trial under BOAT and keeps its data. Part 2 analyzes these data step
-# by step as during a real trial, following Steps C1-C5 of Supplementary Figure S.9. Part 3
+# by step as during a real trial, following Steps C1-C5 of Supplementary Figure S.7. Part 3
 # simulates the same trial under BOAT-ER for comparison.
-# Parts 2 and 3 produce the decisions in Figure 4 and the numbers of patients in
-# Supplementary Figure S.11.
+# Parts 2 and 3 produce the decisions in Figure 6 and the numbers of patients in
+# Supplementary Figure S.9.
 #
 # Usage: Rscript illustration.R   (about 6 minutes)
 # ============================================================
@@ -18,7 +18,7 @@ library(BOAT)
 
 cat("\n==================== Part 1: simulated data ====================\n")
 
-# true response probabilities (rows B1-B3, columns A0-A3) and toxicity probabilities (Figure 3)
+# true response probabilities (rows B1-B3, columns A0-A3) and toxicity probabilities (Figure 5)
 truth <- boat_scenario(pR = rbind(c(0.50, 0.70, 0.20, 0.50),
                                   c(0.30, 0.30, 0.60, 0.30),
                                   c(0.30, 0.30, 0.20, 0.50)),
@@ -34,8 +34,8 @@ print(truth)
 dgm <- boat_dgm(sigma_E = 1, rho = 0.6, sigma_O = 0.1, sigma_OR = 0.1, M = 20)
 
 # 150 patients per subgroup with interim analyses after 75 and 113 of them. lambda = 0.72 was
-# calibrated with nominal FWER 0.05 under the null setting of Supplementary Figure S.10
-# (Step D3 of Supplementary Figure S.9, simulation/calibrate.R).
+# calibrated with nominal FWER 0.05 under the null setting of Supplementary Figure S.8
+# (Step D3 of Supplementary Figure S.7, simulation/calibrate.R).
 design <- boat_design(N = 150, interim = c(0.5, 0.75), lambda = 0.72)
 print(design)
 bounds <- boat_boundary(design)
@@ -125,7 +125,7 @@ print(data.frame(subgroup = paste0("B", t$k), treatment = paste0("A", t$j), n = 
       row.names = FALSE)
 print(trial_er)
 
-# numbers of patients by subgroup and treatment under the two designs (Supplementary Figure S.11)
+# numbers of patients by subgroup and treatment under the two designs (Supplementary Figure S.9)
 n_boat <- trial$n_by_trt_by_k
 n_er <- trial_er$n_by_trt_by_k
 dimnames(n_boat) <- dimnames(n_er) <- list(paste0("B", 1:3), paste0("A", 0:3))
