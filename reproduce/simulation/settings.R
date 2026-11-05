@@ -70,7 +70,7 @@ SCENARIOS_DELTAR020 <- list(
                   0.30,   NA, 0.65, 0.55), c(0.25, 0.15, 0.20, 0.22))
 )
 
-# null setting of the illustrative trial (Supplementary Figure S.10), used to calibrate its lambda:
+# null setting of the illustrative trial (Supplementary Figure S.8), used to calibrate its lambda:
 # all four treatments in every subgroup and no admissible treatment
 ILLUSTRATION_NULL <- make_scenario(c(0.50, 0.70, 0.50, 0.30,
                                      0.50, 0.70, 0.50, 0.30,
