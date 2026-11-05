@@ -4,9 +4,9 @@
 # treatment): B2 in Scenario 1, B1-B3 in Scenario 2 and B2-B3 in Scenario 3. The chosen lambda is
 # the grid value whose largest FWER_k over these subgroups is closest to ALPHA = 0.10. Ties go to
 # the smallest value with FWER_k at most ALPHA. The lambda of the illustrative trial (Section 5) is
-# calibrated in the same way under its null setting (Supplementary Figure S.10), with nominal FWER
+# calibrated in the same way under its null setting (Supplementary Figure S.8), with nominal FWER
 # ALPHA_ILLUSTRATION = 0.05.
-# This is Step D3 of Supplementary Figure S.9 for the illustrative trial.
+# This is Step D3 of Supplementary Figure S.7 for the illustrative trial.
 #
 # BOAT and BOAT-ER are calibrated with boat_calibrate() of the BOAT package and the comparators
 # with comparator_calibrate() (functions.R), which applies the same rule.
