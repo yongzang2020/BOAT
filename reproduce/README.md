@@ -12,11 +12,11 @@ comparators CD-SEP, CD-BHM and CD-AB have their own code.
 | Illustrative trial (Section 5, Figure 6 and Supplementary Figure S.9) | `illustration/illustration.R` |
 | Calibration of lambda (procedure in Section 3, values in Sections 4.1 and 5) | `simulation/calibrate.R` |
 | Main simulation (Supplementary Table S.1) | `simulation/main.R` |
-| Sensitivity to the number of PDO replicates M (Supplementary Tables S.2-S.5) | `simulation/sens1_M.R` |
-| Sensitivity to sigma_O (Supplementary Tables S.6-S.9) | `simulation/sens2_sigmaO.R` |
-| Sensitivity to sigma_OR (Supplementary Tables S.10-S.13) | `simulation/sens3_sigmaOR.R` |
-| Sensitivity to delta_R (Supplementary Tables S.14-S.17) | `simulation/sens4_deltaR.R` |
-| Sensitivity to rho (Supplementary Table S.18) | `simulation/sens5_rho.R` |
+| Sensitivity to the number of PDO replicates M (Supplementary Table S.2) | `simulation/sens1_M.R` |
+| Sensitivity to sigma_O (Supplementary Table S.3) | `simulation/sens2_sigmaO.R` |
+| Sensitivity to sigma_OR (Supplementary Table S.4) | `simulation/sens3_sigmaOR.R` |
+| Sensitivity to delta_R (Supplementary Table S.5) | `simulation/sens4_deltaR.R` |
+| Sensitivity to rho (Supplementary Table S.6) | `simulation/sens5_rho.R` |
 
 ## Contents
 
